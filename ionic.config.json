@@ -1,0 +1,7 @@
+{
+  "name": "kitchenCourseFrontEnd",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
