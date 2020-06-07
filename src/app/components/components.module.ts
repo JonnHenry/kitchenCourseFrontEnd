@@ -6,7 +6,7 @@ import { SubHeaderComponent } from './sub-header/sub-header.component';
 
 @NgModule({
   declarations: [
-    HeaderComponent
+    HeaderComponent,SubHeaderComponent
   ],
   exports: [
     HeaderComponent,

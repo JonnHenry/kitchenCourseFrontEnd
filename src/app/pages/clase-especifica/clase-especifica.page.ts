@@ -9,6 +9,8 @@ export class ClaseEspecificaPage implements OnInit {
 
   constructor() { }
 
+  public nombreClase = 'Sin nombre'
+
   ngOnInit() {
   }
 

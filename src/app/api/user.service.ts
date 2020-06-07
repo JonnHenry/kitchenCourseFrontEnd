@@ -5,7 +5,6 @@ import { Plugins } from '@capacitor/core';
 const { Storage } = Plugins;
 import { NavController } from '@ionic/angular';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
-import { resolve } from 'dns';
 
 
 @Injectable({
@@ -117,7 +116,7 @@ export class UserService {
 
     return new Promise(resolve => {
       this._http.post(`${this.urlServicio}/user/update`, usuario, { headers })
-        .subscribe(resp => {
+        .subscribe(async resp => {
           if (resp['ok']) {
             await this.guardarToken(resp['token']);
             resolve(true);
@@ -142,9 +141,9 @@ export class UserService {
     const fileTransfer: FileTransferObject = this.fileTransfer.create();
     return new Promise<boolean>(resolve => {
       fileTransfer.upload(img, `${this.urlServicio}/user/upload`, options)
-        .then(data => {
+        .then(async data => {
           if (data['ok']) {
-            this.guardarToken(data['token'])
+            await this.guardarToken(data['token'])
             resolve(true)
           }
         }).catch(() => {
@@ -154,7 +153,7 @@ export class UserService {
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
-
+/*
   downloadAvatar() {
     const urlImagen = `${this.urlServicio}/user/imagen/avatar`;
     const headers = new HttpHeaders({
@@ -171,7 +170,7 @@ export class UserService {
   }
 
 
-
+*/
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
   logout() {
