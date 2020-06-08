@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import IUsuario from 'src/app/interfaces/interface.Usuario';
-
+import { MenuController } from '@ionic/angular';
 import {UiServiceService} from '../../api/ui-service.service'
 
 @Component({
@@ -11,7 +11,7 @@ import {UiServiceService} from '../../api/ui-service.service'
 export class RegistroPage implements OnInit {
 
 
-  constructor(private uiService: UiServiceService) { }
+  constructor(private uiService: UiServiceService,private menu: MenuController) { }
 
 
   public nombre_persona = {
@@ -49,6 +49,16 @@ export class RegistroPage implements OnInit {
 
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter() {
+
+    this.menu.enable(false);
+  }
+
+  onPageDidLeave() {
+    // enable the left menu when leaving the login page
+    this.menu.enable(true);
   }
 
 
