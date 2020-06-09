@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -8,7 +9,16 @@ import { MenuController } from '@ionic/angular';
 })
 export class LoginPage implements OnInit {
 
-  constructor(private menu: MenuController) { }
+  constructor(private menu: MenuController, private router: Router) { }
+
+  public usuario ={
+    email: '',
+    password: ''  
+  }
+
+  registrarse(){
+    this.router.navigateByUrl('/registro');
+  }
 
 
   ionViewWillEnter() {
