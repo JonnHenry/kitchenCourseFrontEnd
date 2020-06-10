@@ -36,7 +36,7 @@ export class ClasesService {
     })
   }
 
-  getPathFotoClase(nombreImagen) {
+  getPathFotoClase(nombreImagen): Promise<string> {
     return new Promise<string>(resolve => {
       resolve(`${this.urlServicio}/get/img/${nombreImagen}`)
     })

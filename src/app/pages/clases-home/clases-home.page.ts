@@ -27,6 +27,7 @@ export class ClasesHomePage implements OnInit {
   }
 
   ngOnInit() {
+    this.clasesCargadas = false;
     this.claseService.getClases().then(clases => {
       this.clases = clases
       console.log(clases)
@@ -35,7 +36,6 @@ export class ClasesHomePage implements OnInit {
   }
 
   ionViewWillEnter() {
-
     this.menu.enable(true);
   }
 

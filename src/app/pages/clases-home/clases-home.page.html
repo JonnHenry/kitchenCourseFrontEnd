@@ -5,9 +5,19 @@
   <div *ngIf="!clasesCargadas; else elseBlock">
     <ion-spinner name="crescent" class="spinnerCentrado"></ion-spinner>
   </div>
-  <ng-template #elseBlock >
+  <ng-template #elseBlock>
+    <ion-card *ngFor="let clase of clases;">
+      <ion-card-header>
+        <ion-card-title>{{clase.titulo}}</ion-card-title>
+        <br />
+                <ion-slide class="image-slide" >
+                  <ion-img [src]="clase.imagenClase" class="image-slide"></ion-img>
+        </ion-slide>
+      </ion-card-header> 
+      <ion-card-content>{{clase.descripcion}}</ion-card-content>
+    </ion-card>
 
-    
+
 
   </ng-template>
 
