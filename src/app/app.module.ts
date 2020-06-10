@@ -15,6 +15,8 @@ import { UiServiceService } from './api/ui-service.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ClasesService } from './api/clases.service';
 import { IonicRatingModule } from 'ionic-rating';
+import { Network } from '@ionic-native/network/ngx';
+import { VideoPlayer } from '@ionic-native/video-player/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -35,7 +37,9 @@ import { IonicRatingModule } from 'ionic-rating';
     MenuController,
     UserService,
     UiServiceService,
+    VideoPlayer,
     ClasesService,
+    Network,
     AlertController, ToastController,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

@@ -100,6 +100,8 @@ export class UserService {
             this.usuario.avatar = this.getFotoPath();
             resolve(true);
           } else {
+            this.token = null;
+            this.usuario = null;
             this.navCtrl.navigateRoot('/login');
             resolve(false);
           }
@@ -162,6 +164,7 @@ export class UserService {
         await this.validaToken();
         resolve(true)
       } else {
+        this.token = null
         this.navCtrl.navigateRoot('/login');
         resolve(false)
       }

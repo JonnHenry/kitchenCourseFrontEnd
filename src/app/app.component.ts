@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-
-import { Platform } from '@ionic/angular';
+import { Platform, NavController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { UserService } from './api/user.service';
+import { Network } from '@ionic-native/network/ngx';
+import { UiServiceService } from './api/ui-service.service';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,7 @@ import { UserService } from './api/user.service';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent implements OnInit {
+  
   public selectedIndex = 0;
   public cargadoUser=false;
 
@@ -20,10 +22,18 @@ export class AppComponent implements OnInit {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar, 
-    private userService: UserService
+    private userService: UserService,
+    private network: Network,
+    private uiService: UiServiceService,
+    private navCtrl: NavController
   ) {
     this.initializeApp();
   }
+
+  public disconnectSubscription = this.network.onDisconnect().subscribe(() => {
+    this.uiService.presentToast("No hay conexión a Internet!!");
+  });
+
 
   initializeApp() {
     this.platform.ready().then(() => {
@@ -36,7 +46,6 @@ export class AppComponent implements OnInit {
     this.userService.logout()
     this.cargadoUser = false;
   }
-
 
   ngOnInit() {
     this.cargadoUser = false;

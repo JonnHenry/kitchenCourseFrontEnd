@@ -4,6 +4,7 @@ import { Platform } from '@ionic/angular';
 import { ClasesService } from 'src/app/api/clases.service';
 import IClase from 'src/app/interfaces/IClase.interface';
 import { Router } from '@angular/router';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-clases-home',
