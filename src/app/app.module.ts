@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { UserService } from './api/user.service';
 import { UiServiceService } from './api/ui-service.service';
 import { HttpClientModule } from '@angular/common/http';
+import { ClasesService } from './api/clases.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,6 +33,7 @@ import { HttpClientModule } from '@angular/common/http';
     MenuController,
     UserService,
     UiServiceService,
+    ClasesService,
     AlertController, ToastController,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

@@ -5,6 +5,7 @@ import { Plugins } from '@capacitor/core';
 const { Storage } = Plugins;
 import { NavController } from '@ionic/angular';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
+import IUsuarioToken from '../interfaces/IUsuarioToken';
 
 
 @Injectable({
@@ -15,9 +16,10 @@ export class UserService {
   private urlServicio: string = "http://localhost:3000/user";
 
   private token: any = null;
-  public usuario: any = null;
+  public usuario: IUsuarioToken;
+  private fileTransfer: FileTransfer = new FileTransfer();
 
-  constructor(private _http: HttpClient, private navCtrl: NavController, private fileTransfer: FileTransfer) { }
+  constructor(private _http: HttpClient, private navCtrl: NavController) { }
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////
   //Retorna el token de un Usuario
@@ -169,12 +171,10 @@ export class UserService {
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  getUsuario() {
+  getUsuario(): Promise<IUsuarioToken> {
     return new Promise((resolve) => {
-      this.validaToken().then(respuesta => {
-        if (respuesta == true) {
+      this.validaToken().then(() => {
           resolve(this.usuario)
-        }
       });
     });
   }

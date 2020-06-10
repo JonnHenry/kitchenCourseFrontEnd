@@ -11,7 +11,7 @@ import { UiServiceService } from 'src/app/api/ui-service.service';
 })
 export class LoginPage implements OnInit {
 
-  constructor(private navCtrl: NavController,private menu: MenuController, private router: Router, private userService: UserService, private uiService: UiServiceService) {
+  constructor(private navCtrl: NavController, private menu: MenuController, private router: Router, private userService: UserService, private uiService: UiServiceService) {
 
   }
 
@@ -28,17 +28,20 @@ export class LoginPage implements OnInit {
   login(formCrearUsuario) {
     const usurioCorrecto = this.userService.login(this.usuario);
     usurioCorrecto.then(respuesta => {
-      const usuario = this.userService.usuario;
       if (respuesta) {
-        this.uiService.presentToast(`Bienvenido: ${usuario.nombre}`);
-        formCrearUsuario.reset();
-        this.navCtrl.navigateRoot('/clases-home');
-        this.onPageDidLeave();
+        this.userService.getUsuario().then(usuario => {
+          console.log(usuario)
+          const nombre: string= String(usuario.nombre || '')
+          this.uiService.presentToast(`Bienvenido: ${nombre}`);
+          formCrearUsuario.reset();
+          this.navCtrl.navigateRoot('/clases-home');
+          this.onPageDidLeave();
+        })
       } else {
         this.uiService.presentToast('Usuario / contraseña no son validos');
       }
     })
-    
+
   }
 
 
@@ -53,8 +56,8 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.verificaLogin().then(inicioSesion=>{
-      if (inicioSesion==true){
+    this.userService.verificaLogin().then(inicioSesion => {
+      if (inicioSesion == true) {
         this.navCtrl.navigateRoot('/clases-home');
         this.onPageDidLeave();
       }

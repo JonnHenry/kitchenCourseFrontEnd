@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 import { Platform } from '@ionic/angular';
+import { ClasesService } from 'src/app/api/clases.service';
 
 @Component({
   selector: 'app-clases-home',
@@ -10,21 +11,25 @@ import { Platform } from '@ionic/angular';
 export class ClasesHomePage implements OnInit {
 
   private subscribe: any;
+  public clasesCargadas: boolean = false;
+  public clases: any;
 
 
-  constructor(private menu: MenuController,private platform: Platform) { 
-    this.subscribe = this.platform.backButton.subscribeWithPriority(666666,()=>{
-      if (this.constructor.name == 'ClasesHomePage'){
-        if (window.confirm("Desea salir de la aplicion")){
+  constructor(private menu: MenuController, private platform: Platform, private claseService: ClasesService) {
+    this.subscribe = this.platform.backButton.subscribeWithPriority(666666, () => {
+      if (this.constructor.name == 'ClasesHomePage') {
+        if (window.confirm("Desea salir de la aplicion")) {
           navigator["app"].exitApp();
         }
       }
-  })
-
-
+    })
   }
 
   ngOnInit() {
+    this.claseService.getClases().then(clases => {
+      this.clases = clases;
+      this.clasesCargadas = true;
+    })
   }
 
   ionViewWillEnter() {
