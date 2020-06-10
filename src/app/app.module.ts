@@ -14,6 +14,7 @@ import { UserService } from './api/user.service';
 import { UiServiceService } from './api/ui-service.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ClasesService } from './api/clases.service';
+import { IonicRatingModule } from 'ionic-rating';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,7 +25,8 @@ import { ClasesService } from './api/clases.service';
     AppRoutingModule,
     ComponentsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    IonicRatingModule
   ],
   providers: [
     StatusBar,

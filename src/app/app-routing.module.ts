@@ -20,7 +20,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/clases-home/clases-home.module').then( m => m.ClasesHomePageModule)
   },
   {
-    path: 'clase-especifica/:id',
+    path: 'clase-especifica:id',
     loadChildren: () => import('./pages/clase-especifica/clase-especifica.module').then( m => m.ClaseEspecificaPageModule)
   },
   {

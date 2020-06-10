@@ -3,6 +3,7 @@ import { MenuController } from '@ionic/angular';
 import { Platform } from '@ionic/angular';
 import { ClasesService } from 'src/app/api/clases.service';
 import IClase from 'src/app/interfaces/IClase.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-clases-home',
@@ -16,7 +17,7 @@ export class ClasesHomePage implements OnInit {
   public clases: Array<IClase>;
 
 
-  constructor(private menu: MenuController, private platform: Platform, private claseService: ClasesService) {
+  constructor(private menu: MenuController, private platform: Platform,private router: Router, private claseService: ClasesService) {
     this.subscribe = this.platform.backButton.subscribeWithPriority(666666, () => {
       if (this.constructor.name == 'ClasesHomePage') {
         if (window.confirm("Desea salir de la aplicion")) {
@@ -24,6 +25,10 @@ export class ClasesHomePage implements OnInit {
         }
       }
     })
+  }
+
+  entrarClase(id:number){
+    this.router.navigate(['/clase-especifica', id])
   }
 
   ngOnInit() {
@@ -36,6 +41,7 @@ export class ClasesHomePage implements OnInit {
   }
 
   ionViewWillEnter() {
+    
     this.menu.enable(true);
   }
 

@@ -1,24 +1,43 @@
 <app-header titulo="Curso"></app-header>
 
-<ion-content>
+<ion-content  class="fondo">
 
   <div *ngIf="!clasesCargadas; else elseBlock">
     <ion-spinner name="crescent" class="spinnerCentrado"></ion-spinner>
   </div>
   <ng-template #elseBlock>
-    <ion-card *ngFor="let clase of clases;">
+    <ion-card *ngFor="let clase of clases;" class="fondoCard">
       <ion-card-header>
         <ion-card-title>{{clase.titulo}}</ion-card-title>
-        <br />
-                <ion-slide class="image-slide" >
-                  <ion-img [src]="clase.imagenClase" class="image-slide"></ion-img>
-        </ion-slide>
-      </ion-card-header> 
-      <ion-card-content>{{clase.descripcion}}</ion-card-content>
+      </ion-card-header>
+
+      <ion-grid>
+        <ion-row>
+          <ion-col size="6">
+              <ion-card-content class="ion-text-justify">{{clase.descripcion}}</ion-card-content>
+          </ion-col>
+
+          <ion-col size="6">
+            <ion-img [src]="clase.imagenClase" class="image-slide"></ion-img>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <ion-item class="fondoCard">
+        <ion-grid>
+          <ion-row>
+            <ion-col class="ion-align-self-start" size="5">
+              <ion-button color="success" expand="block" (click)="entrarClase(clase.id)">Empezar</ion-button>
+            </ion-col>
+
+            <ion-col class="ion-align-self-end" size="7">
+              <ion-note>Calificación: <ion-rating [rate]="clase.calificacion" readonly="true" size="small"></ion-rating></ion-note>
+            </ion-col>
+
+          </ion-row>
+        </ion-grid>
+      </ion-item>
     </ion-card>
-
-
-
   </ng-template>
 
 </ion-content>

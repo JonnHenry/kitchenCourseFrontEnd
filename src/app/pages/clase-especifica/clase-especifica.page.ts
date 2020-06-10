@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-clase-especifica',
@@ -7,11 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ClaseEspecificaPage implements OnInit {
 
-  constructor() { }
+  public argumento: any=0;
+  constructor(private activeRoute: ActivatedRoute) { }
 
   public nombreClase = 'Sin nombre'
 
   ngOnInit() {
+    this.argumento = this.activeRoute.snapshot.paramMap.get('id'); 
   }
 
 }
