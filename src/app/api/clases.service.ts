@@ -16,7 +16,7 @@ export class ClasesService {
     return new Promise(resolve => {
       this._http.get<any>(this.urlServicio + '/all', { headers: headers }).subscribe(async resp => {
         if (resp['ok']) {
-          this.getClasesFormateada(resp.clases).then(clases=>{
+          this.getClasesFormateada(resp.clases).then(clases => {
             resolve(clases)
           })
         } else {
@@ -25,6 +25,23 @@ export class ClasesService {
       })
     })
 
+  }
+
+  getClaseEspecifica(id: any): Promise<any> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return new Promise<any>(resolve => {
+      this._http.get(this.urlServicio + '/clase/' + id, { headers: headers }).subscribe(async resp => {
+        resolve(resp)
+      })
+    })
+
+  }
+
+
+  getPathVideo(video: string): Promise<string>{
+    return new Promise<string>(resolve=>{
+      resolve(this.urlServicio+'/get/video/'+video)
+    })
   }
 
   getClasesFormateada(clases: Array<IClase>): Promise<Array<IClase>> {

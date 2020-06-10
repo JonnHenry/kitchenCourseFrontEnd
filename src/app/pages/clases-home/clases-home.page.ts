@@ -28,7 +28,7 @@ export class ClasesHomePage implements OnInit {
   }
 
   entrarClase(id:number){
-    this.router.navigate(['/clase-especifica', id])
+    this.router.navigate(['clase-especifica', id])
   }
 
   ngOnInit() {

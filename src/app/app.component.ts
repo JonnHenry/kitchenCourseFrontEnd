@@ -39,6 +39,7 @@ export class AppComponent implements OnInit {
 
 
   ngOnInit() {
+    this.cargadoUser = false;
     this.userService.verificaLogin().then(inicioSesion=>{
       if (inicioSesion==true){
           this.userService.getUsuario().then(resultado=>{
