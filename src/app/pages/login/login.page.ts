@@ -30,7 +30,6 @@ export class LoginPage implements OnInit {
     usurioCorrecto.then(respuesta => {
       if (respuesta) {
         this.userService.getUsuario().then(usuario => {
-          console.log(usuario)
           const nombre: string= String(usuario.nombre || '')
           this.uiService.presentToast(`Bienvenido: ${nombre}`);
           formCrearUsuario.reset();

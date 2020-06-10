@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 import { Platform } from '@ionic/angular';
 import { ClasesService } from 'src/app/api/clases.service';
+import IClase from 'src/app/interfaces/IClase.interface';
 
 @Component({
   selector: 'app-clases-home',
@@ -12,7 +13,7 @@ export class ClasesHomePage implements OnInit {
 
   private subscribe: any;
   public clasesCargadas: boolean = false;
-  public clases: any;
+  public clases: Array<IClase>;
 
 
   constructor(private menu: MenuController, private platform: Platform, private claseService: ClasesService) {
@@ -27,7 +28,8 @@ export class ClasesHomePage implements OnInit {
 
   ngOnInit() {
     this.claseService.getClases().then(clases => {
-      this.clases = clases;
+      this.clases = clases
+      console.log(clases)
       this.clasesCargadas = true;
     })
   }
