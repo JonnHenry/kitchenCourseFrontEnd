@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuController } from '@ionic/angular';
+import { MenuController, NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { UserService } from 'src/app/api/user.service';
+import { UiServiceService } from 'src/app/api/ui-service.service';
 
 @Component({
   selector: 'app-login',
@@ -9,15 +11,34 @@ import { Router } from '@angular/router';
 })
 export class LoginPage implements OnInit {
 
-  constructor(private menu: MenuController, private router: Router) { }
+  constructor(private navCtrl: NavController,private menu: MenuController, private router: Router, private userService: UserService, private uiService: UiServiceService) {
 
-  public usuario ={
-    email: '',
-    password: ''  
   }
 
-  registrarse(){
-    this.router.navigateByUrl('/registro');
+  public usuario = {
+    email: '',
+    password: ''
+  }
+
+  registrarse() {
+    this.router.navigate(['/registro']);
+  }
+
+
+  login(formCrearUsuario) {
+    const usurioCorrecto = this.userService.login(this.usuario);
+    usurioCorrecto.then(respuesta => {
+      const usuario = this.userService.usuario;
+      if (respuesta) {
+        this.uiService.presentToast(`Bienvenido: ${usuario.nombre}`);
+        formCrearUsuario.reset();
+        this.navCtrl.navigateRoot('/clases-home');
+        this.onPageDidLeave();
+      } else {
+        this.uiService.presentToast('Usuario / contraseña no son validos');
+      }
+    })
+    
   }
 
 
@@ -32,6 +53,11 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit() {
+    this.userService.verificaLogin().then(inicioSesion=>{
+      if (inicioSesion==true){
+        this.navCtrl.navigateRoot('/clases-home');
+        this.onPageDidLeave();
+      }
+    })
   }
-
 }

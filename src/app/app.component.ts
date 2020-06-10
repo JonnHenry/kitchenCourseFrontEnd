@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { UserService } from './api/user.service';
 
 @Component({
   selector: 'app-root',
@@ -11,28 +12,15 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 })
 export class AppComponent implements OnInit {
   public selectedIndex = 0;
-  public appPages = [
-    {
-      title: 'Curso',
-      url: '/folder/Outbox',
-      icon: 'book-outline'
-    },
-    {
-      title: 'Perfil',
-      url: '/folder/Inbox',
-      icon: 'person-circle-outline'
-    },
-    {
-      title: 'Salir',
-      url: '/folder/Favorites',
-      icon: 'exit-outline'
-    }
-  ];
+  public cargadoUser=false;
+
+  public usuario: any={};
 
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar
+    private statusBar: StatusBar, 
+    private userService: UserService
   ) {
     this.initializeApp();
   }
@@ -44,7 +32,20 @@ export class AppComponent implements OnInit {
     });
   }
 
+  cerrarSesion(){
+    this.userService.logout()
+    this.cargadoUser = false;
+  }
+
+
   ngOnInit() {
-    
+    this.userService.verificaLogin().then(inicioSesion=>{
+      if (inicioSesion==true){
+          this.userService.getUsuario().then(resultado=>{
+            this.usuario = resultado;
+            this.cargadoUser = true;
+          })
+      }
+    })
   }
 }

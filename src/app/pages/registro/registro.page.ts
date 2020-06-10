@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import IUsuario from 'src/app/interfaces/interface.Usuario';
-import { MenuController } from '@ionic/angular';
+import { MenuController, NavController } from '@ionic/angular';
 import {UiServiceService} from '../../api/ui-service.service'
+import { UserService } from 'src/app/api/user.service';
 
 @Component({
   selector: 'app-registro',
@@ -11,19 +12,15 @@ import {UiServiceService} from '../../api/ui-service.service'
 export class RegistroPage implements OnInit {
 
 
-  constructor(private uiService: UiServiceService,private menu: MenuController) { }
-
+  constructor(private navCtrl: NavController,private uiService: UiServiceService,private menu: MenuController, private userService: UserService) { }
 
   public nombre_persona = {
     nombre: '',
-    appelido: ''
+    apellido: ''
   }
 
-  public confirmacion = true;
-
-
   public usuario: IUsuario = {
-    nombre: `${this.nombre_persona.nombre} ${this.nombre_persona.appelido}`,
+    nombre: '',
     email: '',
     password: '',
     celular: '',
@@ -32,19 +29,16 @@ export class RegistroPage implements OnInit {
  
 
   registrarUsuario(formCreateInv) {
-    this.confirmacion = false;
-    /*
-    this.invtService.addInventario(this.inventario).subscribe(
-      result => {
-        this.confirmacion = true;
-        formCreateInv.reset();
-        this.presentToast(result.respuesta);
-        this.router.navigateByUrl('/inventarios');
-      },
-      err => {
-        this.presentToast('Ha ocurrido un error inesperado, vuelva a intentarlo.');
+    this.usuario.nombre = `${this.nombre_persona.nombre} ${this.nombre_persona.apellido}`
+    this.userService.registrarUsuario(this.usuario).then(resultado=>{
+      if (resultado==true){
+        this.uiService.presentToast('El usuario se ha registrado con exito')
+        formCreateInv.reset()
+        this.navCtrl.navigateRoot('/clases-home');
+      }else{
+        this.uiService.presentToast('Revise los datos ingresados, pueden estar incorrectos')
       }
-    );*/
+    })
   }
 
 

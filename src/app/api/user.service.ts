@@ -12,12 +12,12 @@ import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-nati
 })
 export class UserService {
 
-  private urlServicio: string = 'http:localhost:3000';
+  private urlServicio: string = "http://localhost:3000/user";
 
   private token: any = null;
-  public usuario: string = null;
+  public usuario: any = null;
 
-  constructor(public _http: HttpClient, private navCtrl: NavController, private fileTransfer: FileTransfer) { }
+  constructor(private _http: HttpClient, private navCtrl: NavController, private fileTransfer: FileTransfer) { }
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////
   //Retorna el token de un Usuario
@@ -26,7 +26,7 @@ export class UserService {
     const usuarioRegistro = JSON.stringify(usuario);
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return new Promise<boolean>((resolve) => {
-      this._http.post(this.urlServicio + '/user/create', usuarioRegistro, { headers: headers }).subscribe(async resp => {
+      this._http.post(`${this.urlServicio}/create`, usuarioRegistro, { headers: headers }).subscribe(async resp => {
         if (resp['ok']) {
           await this.guardarToken(resp['token']);
           resolve(true);
@@ -40,15 +40,13 @@ export class UserService {
   }
 
   ///////////////////////////////////////////////////////////////////////////////////////////////
+  login(usuario: any): Promise<boolean> {
 
-  login(correo: string, password: string): Promise<boolean> {
-    const data = {
-      correo, password
-    }
-    const usuarioLogin = JSON.stringify(data);
+    const usuarioLogin = JSON.stringify(usuario);
+
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return new Promise<boolean>(resolve => {
-      this._http.post(this.urlServicio + '/user/login', usuarioLogin, { headers: headers }).subscribe(async resp => {
+      this._http.post(`${this.urlServicio}/login`, usuarioLogin, { headers: headers }).subscribe(async resp => {
         if (resp['ok']) {
           await this.guardarToken(resp['token']);
           resolve(true);
@@ -97,6 +95,7 @@ export class UserService {
         .subscribe(resp => {
           if (resp['ok']) {
             this.usuario = resp['usuario'];
+            this.usuario.avatar = this.getFotoPath();
             resolve(true);
           } else {
             this.navCtrl.navigateRoot('/login');
@@ -115,7 +114,7 @@ export class UserService {
     });
 
     return new Promise(resolve => {
-      this._http.post(`${this.urlServicio}/user/update`, usuario, { headers })
+      this._http.post(`${this.urlServicio}/update`, usuario, { headers })
         .subscribe(async resp => {
           if (resp['ok']) {
             await this.guardarToken(resp['token']);
@@ -140,7 +139,7 @@ export class UserService {
     };
     const fileTransfer: FileTransferObject = this.fileTransfer.create();
     return new Promise<boolean>(resolve => {
-      fileTransfer.upload(img, `${this.urlServicio}/user/upload`, options)
+      fileTransfer.upload(img, `${this.urlServicio}/upload`, options)
         .then(async data => {
           if (data['ok']) {
             await this.guardarToken(data['token'])
@@ -153,24 +152,40 @@ export class UserService {
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
-/*
-  downloadAvatar() {
-    const urlImagen = `${this.urlServicio}/user/imagen/avatar`;
-    const headers = new HttpHeaders({
-      'X-Token': this.token,
-      'Content-Type': 'application/json'
-    });
 
-    return newPromise<string>(resolve=>{
-      this._http.get(urlImagen,{headers: headers}).obser
+  verificaLogin(): Promise<boolean> {
+    return new Promise<boolean>(async resolve => {
+      await this.cargarToken();
+      if (this.token != null) {
+        await this.validaToken();
+        resolve(true)
+      } else {
+        this.navCtrl.navigateRoot('/login');
+        resolve(false)
+      }
     })
-
-
-
   }
 
 
-*/
+  ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  getUsuario() {
+    return new Promise((resolve) => {
+      this.validaToken().then(respuesta => {
+        if (respuesta == true) {
+          resolve(this.usuario)
+        }
+      });
+    });
+  }
+
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  getFotoPath(): string {
+    return `${this.urlServicio}/imagen/avatar/${this.usuario._id}`;
+  }
+
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
   logout() {

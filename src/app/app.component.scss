@@ -124,7 +124,8 @@ ion-item.selected {
 
 .fondo {
   --background: none;
-  padding: 4% 4% 0% 4%;
+  padding-top: 10px;
+  padding-bottom: 10px;
   background-image: url('../assets/fondo/fondoAvatar.svg');
   background-position: center center;
   background-repeat: no-repeat;

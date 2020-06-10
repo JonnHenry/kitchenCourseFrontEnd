@@ -11,7 +11,7 @@
     <br />
     <br />
 
-    <form #formCrearUsuario="ngForm" (ngSubmit)="registrarUsuario(formCrearUsuario)">
+    <form #formLoginUsuario="ngForm" (ngSubmit)="login(formLoginUsuario)">
       
       <ion-label ><h4 class="borde"><b>Correo:</b></h4></ion-label>
       <br />
@@ -45,7 +45,7 @@
 
       <br />
 
-      <ion-button type="submit"  class="boton" color="primary" [disabled]="!formCrearUsuario.form.valid" expand="block">Ingresar</ion-button>
+      <ion-button type="submit"  class="boton" color="primary" [disabled]="!formLoginUsuario.form.valid" expand="block">Ingresar</ion-button>
       <ion-button  class="boton" color="danger" expand="block" (click)="registrarse()">Registrarse</ion-button>
 
     </form>
