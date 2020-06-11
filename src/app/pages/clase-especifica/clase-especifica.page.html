@@ -1,12 +1,48 @@
-<app-sub-header [titulo]="nombreClase"></app-sub-header>
+<div *ngIf="!claseCargada; else elseBlock">
+    <ion-spinner name="crescent" class="spinnerCentrado"></ion-spinner>
+</div>
+<ng-template #elseBlock>
 
-<ion-content>
-    <ion-row class="ion-align-items-center rowSection">
-        <video controls width="100%" height="350px" preload style="border:1px solid black; background-color: black;" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-    
-         <source [src]="sanitizer.bypassSecurityTrustResourceUrl(videourl)" type="video/mp4">
-     
-         Sorry, your browser doesn't support embedded videos.
-     </video>
- </ion-row>
-</ion-content>
+    <app-sub-header [titulo]="clase.titulo"></app-sub-header>
+
+    <ion-content class="fondo">
+        <ion-row class="ion-align-items-center rowSection">
+            <video controls width="100%" height="350px" preload style="border:1px solid black; background-color: black;"
+                allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                <source [src]="sanitizer.bypassSecurityTrustResourceUrl(clase.nombreVideo)" type="video/mp4">
+                Sorry, your browser doesn't support embedded videos.
+            </video>
+        </ion-row>
+        <ion-card-header>
+            <ion-label><b>Descripción</b></ion-label>
+            <ion-card-subtitle class="ion-text-justify" color='black'>{{clase.descripcion}}</ion-card-subtitle>
+            <br />
+            <ion-button expand="block" (click)="calificar()" color="tertiary">Calificar</ion-button>
+            <br />
+            <ion-label><b>Comentarios</b></ion-label>
+        </ion-card-header>
+
+
+        <ion-card>
+            <ion-grid>
+                <ion-row>
+                  <ion-col size='3'>
+                    <ion-avatar>
+                        <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+                    </ion-avatar>
+                  </ion-col>
+                  <ion-col size='9'>
+                    <ion-label>Nombre</ion-label>
+                    <ion-card-content>
+                        ComentarioThis is content, without any paragraph or header tags,
+                        within an ion-card-content element.
+                    </ion-card-content>
+                  </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-card>
+
+
+
+    </ion-content>
+</ng-template>

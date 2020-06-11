@@ -1,0 +1,37 @@
+.fondologin {
+    --background: #3880ff;
+}
+
+.centrado {
+    text-align: center;
+    margin: auto;
+}
+
+.borde{
+    margin-left: 5%;
+    margin-right: 5%;
+    color: darken($color: #000000, $amount: 0);
+    font-size: 17px;
+}
+
+.margen {
+    margin-top: 10%;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 10%;
+}
+
+.redondo {
+    border-radius: 10px 10px;
+}
+
+.colorForm {
+    --background: rgb(246, 246, 252);
+}
+
+.boton {
+    margin-top: 5%;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 5%;
+}

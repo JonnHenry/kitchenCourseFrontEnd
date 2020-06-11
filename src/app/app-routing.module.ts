@@ -24,7 +24,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/clase-especifica/clase-especifica.module').then( m => m.ClaseEspecificaPageModule)
   },
   {
-    path: 'calificacion',
+    path: 'calificacion/:idClase',
     loadChildren: () => import('./pages/calificacion/calificacion.module').then( m => m.CalificacionPageModule)
   },
   {

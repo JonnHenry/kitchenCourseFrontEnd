@@ -35,8 +35,7 @@ export class ClasesHomePage implements OnInit {
   ngOnInit() {
     this.clasesCargadas = false;
     this.claseService.getClases().then(clases => {
-      this.clases = clases
-      console.log(clases)
+      this.clases = clases;
       this.clasesCargadas = true;
     })
   }

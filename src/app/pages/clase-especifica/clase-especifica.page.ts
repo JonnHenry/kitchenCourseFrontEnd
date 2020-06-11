@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ClasesService } from 'src/app/api/clases.service';
-import { VideoPlayer, VideoOptions } from '@ionic-native/video-player/ngx';
 import IClase from 'src/app/interfaces/IClase.interface';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -13,35 +12,28 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class ClaseEspecificaPage implements OnInit {
 
+  constructor(private router: Router,public sanitizer: DomSanitizer, private activeRoute: ActivatedRoute, private claseService: ClasesService) { }
+
   public argumento: any = 0;
   public claseCargada: boolean = false;
   public videoCargado: boolean = false;
   public clase: IClase;
-  constructor(public sanitizer: DomSanitizer, private videoPlayer: VideoPlayer, private activeRoute: ActivatedRoute, private claseService: ClasesService) { }
 
-  public nombreClase = 'Sin nombre'
-  public videourl: string = 'http://localhost:3000/curso/get/video/Clase_1.mp4';
-  public videoOpts : VideoOptions ;
 
-  public playVideo() {
-    this.videoOpts = { volume: 1.0 };
-    this.videoPlayer.play(this.videourl).then(() => {
-      console.log('video completed');
-    }).catch(err => {
-      console.log(err);
-    });
-  }
-  public stopPlayingVideo() {
-    this.videoPlayer.close();
+  calificar(){
+    this.router.navigate(['calificacion',this.clase.id])
   }
 
   ngOnInit() {
-    this.claseCargada = false;
-    this.argumento = this.activeRoute.snapshot.paramMap.get('id');
-    this.claseService.getClaseEspecifica(this.argumento).then(res => {
-      this.claseService = res.clase;
-      this.claseCargada = true;
-    })
+    this.activeRoute.params.subscribe((params: Params) => {
+      this.claseCargada = false;
+      this.claseService.getClaseEspecifica(params.id).then(res => {
+        this.clase = res;
+        this.claseCargada = true;
+        this.videoCargado = true;
+      })
+    });
+
   }
 
 }

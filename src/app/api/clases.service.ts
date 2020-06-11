@@ -27,19 +27,21 @@ export class ClasesService {
 
   }
 
-  getClaseEspecifica(id: any): Promise<any> {
+  getClaseEspecifica(id: string): Promise<IClase> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return new Promise<any>(resolve => {
-      this._http.get(this.urlServicio + '/clase/' + id, { headers: headers }).subscribe(async resp => {
-        resolve(resp)
+      this._http.get(this.urlServicio + '/clase/' + id, { headers: headers }).subscribe((resp: any) => {
+        this.getPathVideo(resp.clase.nombreVideo).then(respuesta=>{
+          resp.clase.nombreVideo = respuesta;
+          resolve(resp.clase)
+        })
       })
     })
-
   }
 
 
   getPathVideo(video: string): Promise<string>{
-    return new Promise<string>(resolve=>{
+    return new Promise<string>((resolve)=>{
       resolve(this.urlServicio+'/get/video/'+video)
     })
   }
