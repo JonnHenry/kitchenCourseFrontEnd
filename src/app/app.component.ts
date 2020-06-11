@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Platform, NavController } from '@ionic/angular';
+import { Platform, NavController, MenuController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { UserService } from './api/user.service';
@@ -43,18 +43,18 @@ export class AppComponent implements OnInit {
   cerrarSesion() {
     this.userService.logout().then(() => {
       this.cargadoUser = false;
-      console.log('Se salio de la sesion')
     })
-
   }
 
-  ngOnInit() {
+
+  public cargarUsuario() {
     this.cargadoUser = false;
     this.userService.verificaLogin()
       .then(inicioSesion => {
         if (inicioSesion == true) {
           this.userService.getUsuario().then(resultado => {
             this.usuario = resultado;
+            //console.log(this.usuario)
             this.cargadoUser = true;
           })
         }
@@ -65,4 +65,11 @@ export class AppComponent implements OnInit {
         this.cargadoUser = false;
       })
   }
+
+  ngOnInit() {
+    this.cargarUsuario()
+  }
+
+
+
 }

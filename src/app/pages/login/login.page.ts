@@ -27,10 +27,10 @@ export class LoginPage implements OnInit {
 
   login(formCrearUsuario) {
     this.userService.login(this.usuario).then(respuesta => {
-      
+
       if (respuesta) {
         this.userService.getUsuario().then(usuario => {
-          const nombre: string= String(usuario.nombre || '')
+          const nombre: string = String(usuario.nombre || '')
           this.uiService.presentToast(`Bienvenido: ${nombre}`);
           formCrearUsuario.reset();
           this.navCtrl.navigateRoot('/clases-home');
@@ -44,14 +44,14 @@ export class LoginPage implements OnInit {
   }
 
 
-  ionViewWillEnter() {
-
-    this.menu.enable(false);
+  async ionViewWillEnter() {
+    await this.menu.close();
+    await this.menu.enable(false);
   }
 
-  onPageDidLeave() {
+  async onPageDidLeave() {
     // enable the left menu when leaving the login page
-    this.menu.enable(true);
+    await this.menu.enable(true);
   }
 
   ngOnInit() {

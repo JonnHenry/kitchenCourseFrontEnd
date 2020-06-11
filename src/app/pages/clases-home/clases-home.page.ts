@@ -18,7 +18,7 @@ export class ClasesHomePage implements OnInit {
   public clases: Array<IClase>;
 
 
-  constructor(private menu: MenuController, private platform: Platform,private router: Router, private claseService: ClasesService) {
+  constructor(private principalComponent:AppComponent,private menu: MenuController, private platform: Platform,private router: Router, private claseService: ClasesService) {
     this.subscribe = this.platform.backButton.subscribeWithPriority(666666, () => {
       if (this.constructor.name == 'ClasesHomePage') {
         if (window.confirm("Desea salir de la aplicion")) {
@@ -33,25 +33,24 @@ export class ClasesHomePage implements OnInit {
   }
 
   doRefresh(event){
-
     setTimeout(() => {
-      console.log('Async operation has ended');
       event.target.complete();
     }, 2000);
     this.ngOnInit()
   }
 
+  
   ngOnInit() {
     this.clasesCargadas = false;
     this.claseService.getClases().then(clases => {
+      this.principalComponent.cargarUsuario()
       this.clases = clases;
       this.clasesCargadas = true;
     })
   }
 
-  ionViewWillEnter() {
-    
-    this.menu.enable(true);
+  async ionViewWillEnter() {
+    await this.menu.enable(true);
   }
 
 }

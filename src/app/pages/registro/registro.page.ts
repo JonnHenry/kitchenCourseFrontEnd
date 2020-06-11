@@ -45,14 +45,13 @@ export class RegistroPage implements OnInit {
   ngOnInit() {
   }
 
-  ionViewWillEnter() {
-
-    this.menu.enable(false);
+  async ionViewWillEnter() {
+    await this.menu.close();
+    await this.menu.enable(false);
   }
 
-  onPageDidLeave() {
-    // enable the left menu when leaving the login page
-    this.menu.enable(true);
+  async onPageDidLeave() {
+    await this.menu.enable(true);
   }
 
 

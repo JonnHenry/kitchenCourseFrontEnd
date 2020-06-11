@@ -183,14 +183,19 @@ export class UserService {
   verificaLogin(): Promise<boolean> {
     return new Promise<boolean>(async (resolve, reject) => {
       this.validaToken().then((resul) => {
-        if (this.token != null) {
-          resolve(true)
-        } else {
-          this.token = null;
-          this.navCtrl.navigateRoot('/login');
-          resolve(false)
+        try {
+          if (this.token != null) {
+
+            resolve(true)
+          } else {
+            this.token = null;
+            this.navCtrl.navigateRoot('/login');
+            resolve(false)
+          }
+        } catch (error) {
+          reject(false)
         }
-        reject(false)
+
       })
 
     })
@@ -210,9 +215,12 @@ export class UserService {
 
   getToken() {
     return new Promise<string>(async (resolve, reject) => {
-      await this.cargarToken();
-      resolve(this.token)
-      reject(this.token)
+      try {
+        await this.cargarToken();
+        resolve(this.token)
+      } catch (error) {
+        reject(this.token)
+      }
     });
   }
 

@@ -35,7 +35,7 @@
       <br />
       <ion-card>
         <ion-item>
-          <ion-input [(ngModel)]="usuario.password" name="password" required #password="ngModel" minlength="6">
+          <ion-input type="password" [(ngModel)]="usuario.password" name="password" required #password="ngModel" minlength="6">
           </ion-input>
         </ion-item>
         <span *ngIf="password.touched && !password.valid">
