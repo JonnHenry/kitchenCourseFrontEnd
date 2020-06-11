@@ -7,7 +7,7 @@
 
     <ion-content class="fondo">
         <ion-row class="ion-align-items-center rowSection">
-            <video controls width="100%" height="350px" preload style="border:1px solid black; background-color: black;"
+            <video controls width="100%" height="300px" preload style="border:1px solid black; background-color: black;"
                 allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
                 <source [src]="sanitizer.bypassSecurityTrustResourceUrl(clase.nombreVideo)" type="video/mp4">
                 Sorry, your browser doesn't support embedded videos.
@@ -31,7 +31,6 @@
 
         <ng-template #elseBlock>
             <div *ngIf="cantComentarios==0;  else elseComent">
-                <br />
                 <ion-text color="dark" class="centrado">
                     <h5>No hay comentarios</h5>
                 </ion-text>

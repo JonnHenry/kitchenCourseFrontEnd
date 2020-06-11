@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ClasesService } from 'src/app/api/clases.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import ICalificacion from 'src/app/interfaces/ICalificacion';

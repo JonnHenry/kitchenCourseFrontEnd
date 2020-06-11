@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Platform, NavController, MenuController } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { UserService } from './api/user.service';
@@ -54,13 +54,12 @@ export class AppComponent implements OnInit {
         if (inicioSesion == true) {
           this.userService.getUsuario().then(resultado => {
             this.usuario = resultado;
-            //console.log(this.usuario)
             this.cargadoUser = true;
           })
         }
       })
 
-      .catch(err => {
+      .catch(() => {
         this.usuario = {}
         this.cargadoUser = false;
       })
