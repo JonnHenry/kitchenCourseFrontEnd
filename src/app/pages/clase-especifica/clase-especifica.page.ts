@@ -12,16 +12,16 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class ClaseEspecificaPage implements OnInit {
 
-  constructor(private router: Router,public sanitizer: DomSanitizer, private activeRoute: ActivatedRoute, private claseService: ClasesService) { }
+  constructor(private router: Router, public sanitizer: DomSanitizer, private activeRoute: ActivatedRoute, private claseService: ClasesService) { }
 
   public argumento: any = 0;
   public claseCargada: boolean = false;
-  public videoCargado: boolean = false;
+  public comentariosCargados: boolean = false;
   public clase: IClase;
 
 
-  calificar(){
-    this.router.navigate(['calificacion',this.clase.id])
+  calificar() {
+    this.router.navigate(['calificacion', this.clase.id])
   }
 
   ngOnInit() {
@@ -30,7 +30,10 @@ export class ClaseEspecificaPage implements OnInit {
       this.claseService.getClaseEspecifica(params.id).then(res => {
         this.clase = res;
         this.claseCargada = true;
-        this.videoCargado = true;
+        this.claseService.getPathFotosAvatar(res).then(claseComent => {
+          this.comentariosCargados = true;
+          this.clase.comentarios = claseComent.comentarios;
+        })
       })
     });
 

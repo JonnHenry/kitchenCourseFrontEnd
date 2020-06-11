@@ -199,7 +199,14 @@ export class UserService {
     return new Promise<string>((resolve) => {
       resolve(`${this.urlServicio}/imagen/avatar/${this.usuario._id}`);
     })
+  }
 
+  ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  getPathAvatar(usuarioId){
+    return new Promise<string>((resolve) => {
+      resolve(`${this.urlServicio}/imagen/avatar/${usuarioId}`);
+    })
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////

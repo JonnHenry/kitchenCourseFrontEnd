@@ -63,6 +63,15 @@ export class ClasesService {
     })
   }
 
+  getPathFotosAvatar(arrayUsuarios: any):Promise<IClase>{
+    return new Promise(async resolve => {
+      for (let comentario of arrayUsuarios.comentarios) {
+        comentario.usuario.avatar = await this.userService.getPathAvatar(comentario.usuario._id);
+      }
+      resolve(arrayUsuarios)
+    })
+  }
+
 
   obtenerImagen(imagen) {
     this._http.get(this.urlServicio + '/get/img/' + imagen).subscribe()
