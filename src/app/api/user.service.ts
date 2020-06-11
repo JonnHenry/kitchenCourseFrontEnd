@@ -6,6 +6,7 @@ const { Storage } = Plugins;
 import { NavController } from '@ionic/angular';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 import IUsuarioToken from '../interfaces/IUsuarioToken';
+import { async } from '@angular/core/testing';
 
 
 @Injectable({
@@ -83,7 +84,7 @@ export class UserService {
 
     await this.cargarToken();
 
-    if (!this.token) {
+    if (this.token == null) {
       this.navCtrl.navigateRoot('/login');
       return Promise.resolve(false);
     }
@@ -95,10 +96,12 @@ export class UserService {
       });
       this._http.get(`${this.urlServicio}/user/get`, { headers })
         .subscribe(resp => {
-          if (resp['ok']) {
+          if (resp['ok']==true) {
             this.usuario = resp['usuario'];
-            this.usuario.avatar = this.getFotoPath();
-            resolve(true);
+            this.getFotoPath().then(resp=>{
+              this.usuario.avatar = resp
+              resolve(true);
+            })
           } else {
             this.token = null;
             this.usuario = null;
@@ -159,7 +162,7 @@ export class UserService {
 
   verificaLogin(): Promise<boolean> {
     return new Promise<boolean>(async resolve => {
-      await this.cargarToken();
+      await this.validaToken();
       if (this.token != null) {
         await this.validaToken();
         resolve(true)
@@ -175,18 +178,20 @@ export class UserService {
   ////////////////////////////////////////////////////////////////////////////////////////////////////
 
   getUsuario(): Promise<IUsuarioToken> {
-    return new Promise((resolve) => {
-      this.validaToken().then(() => {
-          resolve(this.usuario)
-      });
+    return new Promise(async(resolve) => {
+      await this.validaToken();
+      resolve(this.usuario)
     });
   }
 
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  getFotoPath(): string {
-    return `${this.urlServicio}/imagen/avatar/${this.usuario._id}`;
+  getFotoPath(): Promise<string> {
+    return new Promise<string>((resolve) => {
+      resolve(`${this.urlServicio}/imagen/avatar/${this.usuario._id}`);
+    })
+
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////

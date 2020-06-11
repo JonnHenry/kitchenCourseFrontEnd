@@ -24,8 +24,7 @@ export class AppComponent implements OnInit {
     private statusBar: StatusBar, 
     private userService: UserService,
     private network: Network,
-    private uiService: UiServiceService,
-    private navCtrl: NavController
+    private uiService: UiServiceService
   ) {
     this.initializeApp();
   }
