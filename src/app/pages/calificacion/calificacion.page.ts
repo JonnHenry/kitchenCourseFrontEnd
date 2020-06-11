@@ -11,7 +11,7 @@ import { UiServiceService } from 'src/app/api/ui-service.service';
 })
 export class CalificacionPage implements OnInit {
 
-  constructor(private router: Router, private claseService: ClasesService, private router: Router, private activeRoute: ActivatedRoute, private uiService: UiServiceService) { }
+  constructor( private claseService: ClasesService, private router: Router, private activeRoute: ActivatedRoute, private uiService: UiServiceService) { }
 
 
   public comentarioCargado: boolean;
