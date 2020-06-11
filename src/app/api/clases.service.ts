@@ -88,7 +88,6 @@ export class ClasesService {
           });
 
           this._http.post(this.urlServicio + '/' + idClase + '/comentario', califUsuario, { headers: headers }).subscribe(res => {
-            console.log(res)
             if (res['ok'] == true) {
               resolve(true)
             } else {

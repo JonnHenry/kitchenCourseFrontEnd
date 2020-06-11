@@ -26,8 +26,8 @@ export class LoginPage implements OnInit {
 
 
   login(formCrearUsuario) {
-    const usurioCorrecto = this.userService.login(this.usuario);
-    usurioCorrecto.then(respuesta => {
+    this.userService.login(this.usuario).then(respuesta => {
+      
       if (respuesta) {
         this.userService.getUsuario().then(usuario => {
           const nombre: string= String(usuario.nombre || '')

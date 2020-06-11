@@ -12,16 +12,16 @@ import { UiServiceService } from './api/ui-service.service';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent implements OnInit {
-  
-  public selectedIndex = 0;
-  public cargadoUser=false;
 
-  public usuario: any={};
+  public selectedIndex = 0;
+  public cargadoUser: boolean = false;
+
+  public usuario: any = {};
 
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar, 
+    private statusBar: StatusBar,
     private userService: UserService,
     private network: Network,
     private uiService: UiServiceService
@@ -33,7 +33,6 @@ export class AppComponent implements OnInit {
     this.uiService.presentToast("No hay conexión a Internet!!");
   });
 
-
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
@@ -41,20 +40,29 @@ export class AppComponent implements OnInit {
     });
   }
 
-  cerrarSesion(){
-    this.userService.logout()
-    this.cargadoUser = false;
+  cerrarSesion() {
+    this.userService.logout().then(() => {
+      this.cargadoUser = false;
+      console.log('Se salio de la sesion')
+    })
+
   }
 
   ngOnInit() {
     this.cargadoUser = false;
-    this.userService.verificaLogin().then(inicioSesion=>{
-      if (inicioSesion==true){
-          this.userService.getUsuario().then(resultado=>{
+    this.userService.verificaLogin()
+      .then(inicioSesion => {
+        if (inicioSesion == true) {
+          this.userService.getUsuario().then(resultado => {
             this.usuario = resultado;
             this.cargadoUser = true;
           })
-      }
-    })
+        }
+      })
+
+      .catch(err => {
+        this.usuario = {}
+        this.cargadoUser = false;
+      })
   }
 }

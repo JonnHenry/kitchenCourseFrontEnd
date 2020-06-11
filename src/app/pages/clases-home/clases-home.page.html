@@ -1,6 +1,9 @@
 <app-header titulo="Curso"></app-header>
 
 <ion-content  class="fondo">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" >
+    <ion-refresher-content type=circular></ion-refresher-content>
+  </ion-refresher>
 
   <div *ngIf="!clasesCargadas; else elseBlock">
     <ion-spinner name="crescent" class="spinnerCentrado"></ion-spinner>

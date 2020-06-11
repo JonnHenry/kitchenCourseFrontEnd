@@ -32,6 +32,15 @@ export class ClasesHomePage implements OnInit {
     this.router.navigate(['clase-especifica', id])
   }
 
+  doRefresh(event){
+
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 2000);
+    this.ngOnInit()
+  }
+
   ngOnInit() {
     this.clasesCargadas = false;
     this.claseService.getClases().then(clases => {

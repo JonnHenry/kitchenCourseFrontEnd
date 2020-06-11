@@ -6,7 +6,7 @@
           <ion-title>Menú</ion-title>
         </ion-toolbar>
 
-        <div *ngIf="cargado!; else elseBlock">
+        <div *ngIf="cargadoUser==false; else elseBlock">
           <ion-item-group class="fondo centrado">
             <ion-avatar class="centrado">
               <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" class="centrado">
@@ -38,11 +38,6 @@
           <ion-item routerDirection="root" routerLink="/clases-home">
             <ion-icon slot="start" name="book-outline"></ion-icon>
             <ion-label>Curso</ion-label>
-          </ion-item>
-
-          <ion-item routerDirection="root" routerLink="/perfil">
-            <ion-icon slot="start" name="person-circle-outline"></ion-icon>
-            <ion-label>Perfil</ion-label>
           </ion-item>
 
           <ion-item (click)="cerrarSesion()">

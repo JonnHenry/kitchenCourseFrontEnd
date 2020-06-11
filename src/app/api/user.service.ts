@@ -6,6 +6,7 @@ const { Storage } = Plugins;
 import { NavController } from '@ionic/angular';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 import IUsuarioToken from '../interfaces/IUsuarioToken';
+import { async } from '@angular/core/testing';
 
 
 @Injectable({
@@ -29,13 +30,19 @@ export class UserService {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return new Promise<boolean>((resolve) => {
       this._http.post(`${this.urlServicio}/create`, usuarioRegistro, { headers: headers }).subscribe(async resp => {
-        if (resp['ok']) {
-          await this.guardarToken(resp['token']);
-          resolve(true);
-        } else {
-          this.token = null;
-          Storage.clear();
-          resolve(false);
+        try {
+          if (resp['ok']) {
+            await this.guardarToken(resp['token']);
+            resolve(true);
+          } else {
+            Storage.clear().then(() => {
+              this.token = null;
+              this.usuario = null;
+              resolve(false);
+            })
+          }
+        } catch (e) {
+          resolve(false)
         }
       })
     })
@@ -44,18 +51,24 @@ export class UserService {
   ///////////////////////////////////////////////////////////////////////////////////////////////
   login(usuario: any): Promise<boolean> {
 
-    const usuarioLogin = JSON.stringify(usuario);
+    //const usuarioLogin = JSON.stringify(usuario);
 
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return new Promise<boolean>(resolve => {
-      this._http.post(`${this.urlServicio}/login`, usuarioLogin, { headers: headers }).subscribe(async resp => {
-        if (resp['ok']) {
-          await this.guardarToken(resp['token']);
-          resolve(true);
-        } else {
-          this.token = null;
-          Storage.clear();
-          resolve(false);
+    return new Promise<boolean>((resolve, reject) => {
+      this._http.post(this.urlServicio + '/login', usuario, { headers: headers }).subscribe(async resp => {
+        try {
+          if (resp['ok']) {
+            await this.guardarToken(resp['token']);
+            resolve(true);
+          } else {
+            Storage.clear().then(() => {
+              this.token = null;
+              this.usuario = null;
+              resolve(false);
+            })
+          }
+        } catch (error) {
+          reject(false)
         }
       })
     })
@@ -80,32 +93,34 @@ export class UserService {
 
   //////////////////////////////////////////////////////////////////////////////////////////
   async validaToken(): Promise<boolean> {
-
     await this.cargarToken();
-
     if (this.token == null) {
       this.navCtrl.navigateRoot('/login');
       return Promise.resolve(false);
     }
 
-    return new Promise<boolean>(resolve => {
+    return new Promise<boolean>((resolve, reject) => {
       const headers = new HttpHeaders({
         'X-Token': this.token,
         'Content-Type': 'application/json'
       });
       this._http.get(`${this.urlServicio}/user/get`, { headers })
         .subscribe(resp => {
-          if (resp['ok']==true) {
-            this.usuario = resp['usuario'];
-            this.getFotoPath().then(resp=>{
-              this.usuario.avatar = resp
-              resolve(true);
-            })
-          } else {
-            this.token = null;
-            this.usuario = null;
-            this.navCtrl.navigateRoot('/login');
-            resolve(false);
+          try {
+            if (resp['ok'] == true) {
+              this.usuario = resp['usuario'];
+              this.getFotoPath().then(resp => {
+                this.usuario.avatar = resp
+                resolve(true);
+              })
+            } else {
+              this.token = null;
+              this.usuario = null;
+              this.navCtrl.navigateRoot('/login');
+              resolve(false);
+            }
+          } catch (e) {
+            reject(false)
           }
         });
     });
@@ -119,14 +134,18 @@ export class UserService {
       'Content-Type': 'application/json'
     });
 
-    return new Promise(resolve => {
+    return new Promise(async (resolve, reject) => {
       this._http.post(`${this.urlServicio}/update`, usuario, { headers })
         .subscribe(async resp => {
-          if (resp['ok']) {
-            await this.guardarToken(resp['token']);
-            resolve(true);
-          } else {
-            resolve(false);
+          try {
+            if (resp['ok']) {
+              await this.guardarToken(resp['token']);
+              resolve(true);
+            } else {
+              resolve(false);
+            }
+          } catch (e) {
+            reject(false)
           }
         });
     });
@@ -144,51 +163,56 @@ export class UserService {
       }
     };
     const fileTransfer: FileTransferObject = this.fileTransfer.create();
-    return new Promise<boolean>(resolve => {
+    return new Promise<boolean>((resolve, reject) => {
       fileTransfer.upload(img, `${this.urlServicio}/upload`, options)
         .then(async data => {
           if (data['ok']) {
             await this.guardarToken(data['token'])
             resolve(true)
           }
-        }).catch(() => {
-          resolve(false)
+        })
+        .catch(() => {
+          reject(false)
         });
+
     });
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
 
   verificaLogin(): Promise<boolean> {
-    return new Promise<boolean>(async resolve => {
-      await this.validaToken();
-      if (this.token != null) {
-        await this.validaToken();
-        resolve(true)
-      } else {
-        this.token = null
-        this.navCtrl.navigateRoot('/login');
-        resolve(false)
-      }
+    return new Promise<boolean>(async (resolve, reject) => {
+      this.validaToken().then((resul) => {
+        if (this.token != null) {
+          resolve(true)
+        } else {
+          this.token = null;
+          this.navCtrl.navigateRoot('/login');
+          resolve(false)
+        }
+        reject(false)
+      })
+
     })
   }
-
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
 
   getUsuario(): Promise<IUsuarioToken> {
-    return new Promise(async(resolve) => {
+    return new Promise(async (resolve, reject) => {
       await this.validaToken();
       resolve(this.usuario)
+      reject({})
     });
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  getToken(){
-    return new Promise<string>(async(resolve) => {
+  getToken() {
+    return new Promise<string>(async (resolve, reject) => {
       await this.cargarToken();
       resolve(this.token)
+      reject(this.token)
     });
   }
 
@@ -196,25 +220,28 @@ export class UserService {
   ////////////////////////////////////////////////////////////////////////////////////////////////////
 
   getFotoPath(): Promise<string> {
-    return new Promise<string>((resolve) => {
+    return new Promise<string>((resolve, reject) => {
       resolve(`${this.urlServicio}/imagen/avatar/${this.usuario._id}`);
+      reject(`${this.urlServicio}/imagen/avatar/${this.usuario._id}`)
     })
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  getPathAvatar(usuarioId){
-    return new Promise<string>((resolve) => {
+  getPathAvatar(usuarioId) {
+    return new Promise<string>((resolve, reject) => {
       resolve(`${this.urlServicio}/imagen/avatar/${usuarioId}`);
+      reject(`${this.urlServicio}/imagen/avatar/${usuarioId}`)
     })
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  logout() {
-    this.token = null;
-    this.usuario = null;
-    Storage.clear();
-    this.navCtrl.navigateRoot('/login', { animated: true });
+  async logout() {
+    Storage.clear().then(() => {
+      this.token = null;
+      this.usuario = null;
+      this.navCtrl.navigateRoot('/login');
+    })
   }
 }
