@@ -30,23 +30,34 @@
         </div>
 
         <ng-template #elseBlock>
-            <ion-card *ngFor="let comentario of clase.comentarios;">
-                <ion-grid>
-                    <ion-row>
-                        <ion-col size='3'>
-                            <ion-avatar>
-                                <img [src]="comentario.usuario.avatar">
-                            </ion-avatar>
-                        </ion-col>
-                        <ion-col size='9'>
-                            <ion-label><b>{{comentario.usuario.nombre}}</b></ion-label>
-                            <ion-card-content>
-                                {{comentario.comentario}}
-                            </ion-card-content>
-                        </ion-col>
-                    </ion-row>
-                </ion-grid>
-            </ion-card>
+            <div *ngIf="cantComentarios==0;  else elseComent">
+                <br />
+                <ion-text color="dark" class="centrado">
+                    <h5>No hay comentarios</h5>
+                </ion-text>
+            </div>
+
+            <ng-template #elseComent>
+                <ion-card *ngFor="let comentario of clase.comentarios;">
+                    <ion-grid>
+                        <ion-row>
+                            <ion-col size='3'>
+                                <ion-avatar>
+                                    <img [src]="comentario.usuario.avatar">
+                                </ion-avatar>
+                            </ion-col>
+                            <ion-col size='9'>
+                                <ion-label><b>{{comentario.usuario.nombre}}</b></ion-label>
+                                <ion-card-content>
+                                    {{comentario.comentario}}
+                                </ion-card-content>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </ion-card>
+            </ng-template>
+
+
 
 
         </ng-template>

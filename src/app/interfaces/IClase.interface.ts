@@ -5,6 +5,7 @@ export default interface IClase {
     titulo: string;
     imagenClase: string;
     comentarios: {
+        length: number;
         comentario: string;
         _id: string;
         usuario: {

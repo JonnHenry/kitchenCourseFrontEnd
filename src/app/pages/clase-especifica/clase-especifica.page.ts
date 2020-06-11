@@ -15,6 +15,7 @@ export class ClaseEspecificaPage implements OnInit {
   constructor(private router: Router, public sanitizer: DomSanitizer, private activeRoute: ActivatedRoute, private claseService: ClasesService) { }
 
   public argumento: any = 0;
+  public cantComentarios =0;
   public claseCargada: boolean = false;
   public comentariosCargados: boolean = false;
   public clase: IClase;
@@ -33,6 +34,7 @@ export class ClaseEspecificaPage implements OnInit {
         this.claseService.getPathFotosAvatar(res).then(claseComent => {
           this.comentariosCargados = true;
           this.clase.comentarios = claseComent.comentarios;
+          this.cantComentarios = this.clase.comentarios.length
         })
       })
     });
