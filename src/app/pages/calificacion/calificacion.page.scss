@@ -1,7 +1,6 @@
-.fondologin {
-    --background: #3880ff;
+.fondo {
+    --background: rgb(246, 246, 252);
 }
-
 .centrado {
     text-align: center;
     margin: auto;
@@ -25,13 +24,24 @@
     border-radius: 10px 10px;
 }
 
-.colorForm {
-    --background: rgb(246, 246, 252);
-}
-
 .boton {
     margin-top: 5%;
     margin-left: 5%;
     margin-right: 5%;
     margin-bottom: 5%;
+}
+
+.spinnerCentrado {
+    stroke: #ff0000;
+    fill: #8b0000;
+    position: fixed;
+    z-index: 999;
+    height: 10em;
+    width: 5em;
+    overflow: show;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
 }

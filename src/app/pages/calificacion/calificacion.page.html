@@ -6,60 +6,61 @@
 
   <app-sub-header titulo="Calificación"></app-sub-header>
 
-  <ion-content class="fondo">
-    <ion-card class="redondo margen colorForm">
+  <ion-content class="fondo ">
+    <ion-card class="redondo margen ">
       <ion-card-header class="centrado">
         <br />
         <ion-card-title><b>Calificación</b></ion-card-title>
       </ion-card-header>
-  
+
       <br />
       <br />
-  
+
       <form #formCalificacion="ngForm" (ngSubmit)="comentUsuario(formCalificacion)">
-        
-        <ion-label ><h4 class="borde"><b>Comentario:</b></h4></ion-label>
+
+        <ion-label>
+          <h4 class="borde"><b>Comentario:</b></h4>
+        </ion-label>
         <br />
-  
+
         <ion-card>
           <ion-item>
-            <ion-textarea type="text" rows="6" cols="20" placeholder="Ingrese su comentario..." [(ngModel)]="calUsuario.comentario" name="comentario" required #comentario="ngModel"></ion-textarea>  
+            <ion-textarea type="text" rows="6" minlength="6" cols="20" placeholder="Ingrese su comentario..."
+              [(ngModel)]="calUsuario.comentario" name="comentario" required #comentario="ngModel"></ion-textarea>
           </ion-item>
-            
+
           <span *ngIf="comentario.touched && !comentario.valid">
             <ion-note color="danger">Es obligatorio dar un comentario</ion-note>
           </span>
         </ion-card>
-  
         <br />
-  
-  
-        <ion-label ><h4 class="borde"><b>Calificación:</b></h4></ion-label>
+
+
+        <ion-label>
+          <h4 class="borde"><b>Calificación:</b></h4>
+        </ion-label>
         <br />
-        <ion-card>
-          <ion-item>
-            <ion-input [(ngModel)]="calUsuario.calificacion" name="calificacion" required #calificacion="ngModel" >
-            </ion-input>
-          </ion-item>
+
+        <div class="centrado">
+          <ion-rating [(ngModel)]="calUsuario.calificacion"  [rate]="calUsuario.calificacion" readonly="false"
+            size="large" (hover)="onRateChange($event)" name="calificacion"  #calificacion="ngModel">
+          </ion-rating>
+
+          <br />
           <span *ngIf="calUsuario.touched && !calUsuario.valid">
             <ion-note color="danger">Debe de tener minimo 6 caracteres</ion-note>
           </span>
-        </ion-card>
-  
-        <br />
-  
-        <ion-button type="submit"  class="boton" color="success" [disabled]="!formCalificacion.form.valid" expand="block">Enviar</ion-button>
-        
-  
+          <br />
+
+        </div>
+
+
+        <ion-button type="submit" class="boton" color="success" [disabled]="!formCalificacion.form.valid"
+          expand="block">Enviar</ion-button>
+
       </form>
       <br />
-      <br />
-  
-  
-  
-  
-  
-  
+
     </ion-card>
 
   </ion-content>

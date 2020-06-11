@@ -6,7 +6,6 @@ const { Storage } = Plugins;
 import { NavController } from '@ionic/angular';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 import IUsuarioToken from '../interfaces/IUsuarioToken';
-import { async } from '@angular/core/testing';
 
 
 @Injectable({
@@ -181,6 +180,15 @@ export class UserService {
     return new Promise(async(resolve) => {
       await this.validaToken();
       resolve(this.usuario)
+    });
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  getToken(){
+    return new Promise<string>(async(resolve) => {
+      await this.cargarToken();
+      resolve(this.token)
     });
   }
 

@@ -8,6 +8,7 @@ import { CalificacionPageRoutingModule } from './calificacion-routing.module';
 
 import { CalificacionPage } from './calificacion.page';
 import { ComponentsModule } from 'src/app/components/components.module';
+import { IonicRatingModule } from 'ionic-rating';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { ComponentsModule } from 'src/app/components/components.module';
     FormsModule,
     IonicModule,
     ComponentsModule,
+    IonicRatingModule,
     CalificacionPageRoutingModule
   ],
   declarations: [CalificacionPage]
